@@ -1,0 +1,54 @@
+﻿@model PeopleViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*<button id="All" type="submit" asp-action="PeoplePartial">All</button>*@
+
+<input asp-controller="Ajax" asp-action="PeoplePartial" data-target="enviroment-container" type="button" value="All" id="All" />
+
+<form action="PersonPartial" method="post">
+    <label>Id</label>
+    <input type="number" />
+    <input id="Findby" type="submit" value="Submit" />
+    <input id="Delete" type="submit" value="delete" />
+</form>
+
+<input type="button" value="Test" id="test" />
+
+<div id="enviroment-container"></div>
+
+
+<script>
+    //$(document).ready(function () {
+    //    $("All").click(function () {
+    //        var url = "/Ajax/PeoplePartial";
+    //        $.get(url, null, function (data) {
+    //            $("#enviroment-container").html(data);
+    //        });
+    //    });
+    //});
+
+    //$("#All").click(function (e) {
+    //    var _this = $(this);
+    //    $.get(_this.attr("href"), function (res) {
+    //        $('#' + _this.data("target")).html(res);
+    //    });
+    //});
+    $(document).ready(function () {
+
+        $('#test').click(function () {
+
+            $.ajax({
+                url: "AjaxController/Test",
+                type: "GET",
+                data: { id: 50 },
+                cache: false,
+                async: true,
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        });
+
+</script>
