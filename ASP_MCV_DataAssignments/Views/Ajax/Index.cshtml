@@ -16,8 +16,7 @@
 
 <input type="button" value="Test" id="test" />
 
-<div id="enviroment-container"></div>
-
+<p id="enviroment-container">HejDå</p>
 
 <script>
     //$(document).ready(function () {
@@ -35,20 +34,24 @@
     //        $('#' + _this.data("target")).html(res);
     //    });
     //});
-    $(document).ready(function () {
 
-        $('#test').click(function () {
 
-            $.ajax({
-                url: "AjaxController/Test",
-                type: "GET",
-                data: { id: 50 },
-                cache: false,
-                async: true,
-                success: function (data) {
-                    alert(data);
-                }
-            });
+    //$.ajax({
+    //    url: "Ajax/Test",
+    //    type: "GET",
+    //    data: { id: 50 },
+    //    cache: false,
+    //    async: true,
+    //    success: function (data) {
+    //        alert(data);
+    //    }
+    //});
+        $("#test").click(function () {
+            $("#enviroment-container").html = "Hej";
+            $("#enviroment-container").fadeOut();
         });
+
+        
+
 
 </script>
