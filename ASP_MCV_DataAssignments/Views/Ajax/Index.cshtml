@@ -5,18 +5,23 @@
 
 @*<button id="All" type="submit" asp-action="PeoplePartial">All</button>*@
 
-<input asp-controller="Ajax" asp-action="PeoplePartial" data-target="enviroment-container" type="button" value="All" id="All" />
+<input type="button" value="People" id="All" />
 
-<form asp-controller="Ajax" asp-action="PersonPartial" method="post">
+
+<input type="number" />
+<input id="Findby" type="button" value="Submit" />
+<input id="Delete" type="submit" value="delete" />
+
+@*<form action="" method="post">
     <label>Id</label>
     <input type="number" />
     <input id="Findby" type="submit" value="Submit" />
     <input id="Delete" type="submit" value="delete" />
-</form>
+</form>*@
 
 <input type="button" value="Test" id="test" />
 
-<div id="enviroment-container">aaa</div>
+<div id="enviroment-container">aa</div>
 
 <script>
     //$(document).ready(function () {
@@ -35,16 +40,32 @@
     //    });
     //});
 
-
-    //$("#All").click(function (e) {
-    $("#test").click(function () {
-        //$("#enviroment-container").html = "Hej";
-        //$("#enviroment-container").fadeOut();
-
-        var url = "Ajax/PersonPartial";
-        $.post(url, function (data) {
+    $("#All").click(function () {
+        var url = "Ajax/PeoplePartial";
+        $.get(url, function (data) {
             $("#enviroment-container").html(data);
         });
+
+        //var url = "Ajax/PersonPartial";
+        //$.post(url, function (data) {
+        //    $("#enviroment-container").html(data);
+        //});
+
+        //var url = "Ajax/test";
+        //$.get(url, function (data) {
+        //    $("#enviroment-container").html(data);
+        //});
+    });
+
+    //$("#All").click(function (e) {
+    $("#Findby").click(function (e) {
+        $("#enviroment-container").html = "Hej";
+        //$("#enviroment-container").fadeOut();
+
+        //var url = "Ajax/PersonPartial";
+        //$.post(url, e, function (data) {
+        //    $("#enviroment-container").html(data);
+        //});
 
         //$.ajax({
         //    url: "Ajax/PeoplePartial", //test
@@ -57,6 +78,15 @@
         //        $("#enviroment-container").html(data);
         //    }
         //});
+
+    });
+
+    $("#Delete").click(function () {
+
+        var url = "Ajax/PersonPartial";
+        $.post(url, function (data) {
+            $("#enviroment-container").html(data);
+        });
 
     });
 

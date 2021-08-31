@@ -32,9 +32,9 @@ namespace ASP_MCV_DataAssignments.Controllers
         }
 
         [HttpGet]
-        public IActionResult PeoplePartial()
+        public IActionResult PeoplePartial(int id)
         {
-            return PartialView("PeoplePartial", _peopleService.All());//View(_peopleService.All());
+            return PartialView("PeoplePartial", _peopleService.All().PersonList);//View(_peopleService.All());
         }
 
         [HttpPost]
@@ -54,9 +54,15 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            _peopleService.Remove(id);
+            bool deleted = _peopleService.Remove(id);
+            string result = "";
 
-            return View();
+            if (deleted)
+                result = "Successfully deleted!";
+            else
+                result = "Was not deleted!";
+
+            return Content(result);
         }
 
         [HttpGet]
