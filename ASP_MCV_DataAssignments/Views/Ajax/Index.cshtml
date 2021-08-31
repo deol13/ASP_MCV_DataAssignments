@@ -3,16 +3,13 @@
     ViewData["Title"] = "Home Page";
 }
 
-@*<button id="All" type="submit" asp-action="PeoplePartial">All</button>*@
-
 <input type="button" value="People" id="All" />
-
 
 <input id="input" type="number" />
 <input type="button" value="Details" id="Findby" />
 <input type="button" value="Delete" id="Delete"/>
 
-<div id="enviroment-container">aa</div>
+<div id="enviroment-container"></div>
 
 <script>
     $("#All").click(function () {
@@ -23,7 +20,6 @@
     });
 
     $("#Findby").click(function () {
-        //$("#enviroment-container").fadeOut();
         var url = "Ajax/PersonPartial/" + document.getElementById("input").value;
         $.post(url, function (data) {
             $("#enviroment-container").html(data);

@@ -34,19 +34,15 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpGet]
         public IActionResult PeoplePartial(int id)
         {
-            return PartialView("PeoplePartial", _peopleService.All().PersonList);//View(_peopleService.All());
+            return PartialView("PeoplePartial", _peopleService.All().PersonList);
         }
 
         [HttpPost]
         public IActionResult PersonPartial(int id)
         {
             Person p = _peopleService.Findby(id);
-            if (p == null)
-            {
-                //??
-            }
 
-            return PartialView("PersonPartial", p); //View(_peopleService.Findby(id));
+            return PartialView("PersonPartial", p);
         }
 
         [HttpPost]
