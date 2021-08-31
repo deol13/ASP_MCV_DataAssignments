@@ -7,7 +7,7 @@
 
 <input asp-controller="Ajax" asp-action="PeoplePartial" data-target="enviroment-container" type="button" value="All" id="All" />
 
-<form action="PersonPartial" method="post">
+<form asp-controller="Ajax" asp-action="PersonPartial" method="post">
     <label>Id</label>
     <input type="number" />
     <input id="Findby" type="submit" value="Submit" />
@@ -16,7 +16,7 @@
 
 <input type="button" value="Test" id="test" />
 
-<p id="enviroment-container">HejDå</p>
+<div id="enviroment-container">aaa</div>
 
 <script>
     //$(document).ready(function () {
@@ -36,22 +36,31 @@
     //});
 
 
-    //$.ajax({
-    //    url: "Ajax/Test",
-    //    type: "GET",
-    //    data: { id: 50 },
-    //    cache: false,
-    //    async: true,
-    //    success: function (data) {
-    //        alert(data);
-    //    }
-    //});
-        $("#test").click(function () {
-            $("#enviroment-container").html = "Hej";
-            $("#enviroment-container").fadeOut();
+    //$("#All").click(function (e) {
+    $("#test").click(function () {
+        //$("#enviroment-container").html = "Hej";
+        //$("#enviroment-container").fadeOut();
+
+        var url = "Ajax/PersonPartial";
+        $.post(url, function (data) {
+            $("#enviroment-container").html(data);
         });
 
-        
+        //$.ajax({
+        //    url: "Ajax/PeoplePartial", //test
+        //    type: "GET",
+        //    data: { id: 50 },
+        //    cache: false,
+        //    async: true,
+        //    success: function (data) {
+        //        //alert(data);
+        //        $("#enviroment-container").html(data);
+        //    }
+        //});
+
+    });
+
+
 
 
 </script>

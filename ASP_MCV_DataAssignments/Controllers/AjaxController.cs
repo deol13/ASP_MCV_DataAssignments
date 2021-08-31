@@ -21,7 +21,14 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            if (_peopleService.All().PersonList.Count == 0)
+            {
+                _peopleService.CreateDefaultPeople();
+                
+            }
+            PeopleViewModel peopleViewModel = _peopleService.All();
+
+            return View(peopleViewModel);
         }
 
         [HttpGet]
@@ -33,13 +40,15 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpPost]
         public IActionResult PersonPartial(int id)
         {
+            id = 1;
+
             Person p = _peopleService.Findby(id);
             if (p == null)
             {
                 //??
             }
 
-            return PartialView("PeoplePartial", p); //View(_peopleService.Findby(id));
+            return PartialView("PersonPartial", p); //View(_peopleService.Findby(id));
         }
 
         [HttpPost]
