@@ -40,8 +40,6 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpPost]
         public IActionResult PersonPartial(int id)
         {
-            id = 1;
-
             Person p = _peopleService.Findby(id);
             if (p == null)
             {
@@ -63,12 +61,6 @@ namespace ASP_MCV_DataAssignments.Controllers
                 result = "Was not deleted!";
 
             return Content(result);
-        }
-
-        [HttpGet]
-        public IActionResult Test(int id)
-        {
-            return Content("Hej");
         }
     }
 }
