@@ -22,7 +22,7 @@ namespace ASP_MCV_DataAssignments.Models
         [MinLength(1)]
         public string City { get; set; }
 
-        [Required]
+        [Key]
         public int Id { get; set; }
 
         public Person(string name, int phone, string city, int id)
