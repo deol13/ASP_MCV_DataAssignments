@@ -27,7 +27,7 @@
                 <td>@item.Name</td>
                 <td>@item.Phone</td>
                 <td>@item.City</td>
-                <td> @Html.ActionLink("Delete", "Remove", "People", @item.Id, new { @class = "actionLink" })  </td>
+                <td> @Html.ActionLink("Delete", "Remove", "People", new { @item.Id }, null)  </td>
                 
             </tr>
         }
