@@ -20,6 +20,9 @@ namespace ASP_MCV_DataAssignments.Models.ViewModel
         [StringLength(15, MinimumLength = 1)]
         public string City { get; set; }
 
+        [Key]
+        public int Id { get; set; }
+
         public CreatePersonViewModel()
         {
 

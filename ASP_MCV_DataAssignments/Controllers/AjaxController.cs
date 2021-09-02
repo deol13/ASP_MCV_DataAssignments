@@ -58,5 +58,25 @@ namespace ASP_MCV_DataAssignments.Controllers
 
             return Content(result);
         }
+
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreatePersonViewModel createPersonViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _peopleService.Add(createPersonViewModel);
+
+                return RedirectToAction(nameof(PeoplePartial));
+            }
+
+            return View(createPersonViewModel);
+        }
     }
 }
