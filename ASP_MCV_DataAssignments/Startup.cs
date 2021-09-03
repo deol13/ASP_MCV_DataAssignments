@@ -29,7 +29,7 @@ namespace ASP_MCV_DataAssignments
         {
             services.AddControllersWithViews();
 
-            services.AddScoped<IPeopleRepo, InMemoryPeopleRepo>();
+            //services.AddScoped<IPeopleRepo, InMemoryPeopleRepo>();
 
             services.AddScoped<IPeopleService, PeopleService>();
 

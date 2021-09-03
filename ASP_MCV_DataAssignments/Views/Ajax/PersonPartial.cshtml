@@ -15,9 +15,6 @@
         @Html.DisplayFor(model => model.City)
     </div>
     <div class="col-sm">
-        @Html.ActionLink("LocalListDelete", "Remove", "People", new { Model.Id }, null)
-    </div>
-    <div class="col-sm">
-        @Html.ActionLink("DatabaseDelete", "Remove", "Test", new { Model.Id }, null)
+        @Html.ActionLink("Delete", "Remove", "People", new { Model.Id }, null)
     </div>
 </div>
