@@ -20,11 +20,18 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if(_peopleService.All().PersonList.Count == 0)
-            {
-                _peopleService.CreateDefaultPeople();
-            }
-            
+            ////Just to test edit/updatem methods
+            //PeopleViewModel peopleViewModel = new PeopleViewModel();
+
+            //peopleViewModel = _peopleService.All();
+            //Update();
+
+            ////Had to remove this to check if read() actually gets the databases table if local list is empty
+            //if(_peopleService.All().PersonList.Count == 0)
+            //{
+            //    _peopleService.CreateDefaultPeople();
+            //}
+
             return View(_peopleService.All());
         }
 
@@ -67,5 +74,12 @@ namespace ASP_MCV_DataAssignments.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        //public void Update()
+        //{
+        //    //Old ("Ola", 51239881, "Bergsjön", 2);
+        //    Person person = new Person("Björn bergtop", 95235233, "Malmö", 2);
+        //    _peopleService.Edit(2, person);
+        //}
     }
 }
