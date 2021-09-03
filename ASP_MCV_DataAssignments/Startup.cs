@@ -1,8 +1,10 @@
+using ASP_MCV_DataAssignments.Data;
 using ASP_MCV_DataAssignments.Models.Repo;
 using ASP_MCV_DataAssignments.Models.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +32,12 @@ namespace ASP_MCV_DataAssignments
             services.AddScoped<IPeopleRepo, InMemoryPeopleRepo>();
 
             services.AddScoped<IPeopleService, PeopleService>();
+
+            services.AddScoped<IPeopleRepo, DatabasePeopleRepo>();
+
+            //An injection, only when already using injection. If you are not using injection, use Dbcontext constructor to create instances
+            services.AddDbContext<PeopleDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("PeopleDb")));
 
             services.AddMvc();
         }

@@ -10,8 +10,9 @@ namespace ASP_MCV_DataAssignments.Models.Repo
         private static List<Person> _personList = new List<Person>();
         private static int idCounter = 0;
 
-        public Person Create(string name, string city, int phoneNumber)
+        public Person Create(string name, string city, int phoneNumber) //id   sent in from controller or just send in a Person
         {
+            //Remember to remove id from Person constructor and from here because with [Key] the database set it automaticly.
             Person person = new Person(name, phoneNumber, city, idCounter);
             idCounter++;
 
@@ -58,6 +59,15 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             }
 
             return person;
+        }
+
+        public void GetAllPeopleFromDatabase() //Get a _context as paramter
+        {
+            //list = _context.allpeople
+            //foreach list {
+            //idCounter++;
+            //_personList.Add(person);
+            //}
         }
     }
 }

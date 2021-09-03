@@ -25,12 +25,18 @@ namespace ASP_MCV_DataAssignments.Models
         [Required]
         public int Id { get; set; }
 
-        public Person(string name, int phone, string city, int id)
+        public Person(string Name, int Phone, string City)
         {
-            Name = name;
-            Phone = phone;
-            City = city;
-            Id = id;
+            this.Name = Name;
+            this.Phone = Phone;
+            this.City = City;
+        }
+        public Person(string Name, int Phone, string City, int Id)
+        {
+            this.Name = Name;
+            this.Phone = Phone;
+            this.City = City;
+            this.Id = Id;
         }
     }
 }
