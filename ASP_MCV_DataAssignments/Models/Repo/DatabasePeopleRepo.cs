@@ -15,15 +15,14 @@ namespace ASP_MCV_DataAssignments.Models.Repo
         public DatabasePeopleRepo(PeopleDbContext context)
         {
             _context = context;
+            if (_personList.Count == 0)
+            {
+                _personList = Read();
+            }
         }
 
         public Person Create(string name, string city, int phoneNumber)
         {
-            if(_personList.Count == 0)
-            {
-                _personList = Read();
-            }
-
             Person person = new Person(name, phoneNumber, city);
             idCounter++;
 
@@ -51,7 +50,7 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             if (_personList.Count == 0)
             {
                 _personList = _context.People.ToList();
-                idCounter = _context.People.Count();
+                idCounter = _personList.Last().Id;
             }
 
             return _personList;
@@ -78,6 +77,8 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             {
                 return person1;
             }
+
+            //Person p = _context.People.Find(id);
 
             return null;
         }
