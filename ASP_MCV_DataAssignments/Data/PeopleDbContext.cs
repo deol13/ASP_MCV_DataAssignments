@@ -17,5 +17,9 @@ namespace ASP_MCV_DataAssignments.Data
         }
 
         public DbSet<Person> People { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
     }
 }

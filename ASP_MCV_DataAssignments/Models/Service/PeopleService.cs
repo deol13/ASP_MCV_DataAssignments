@@ -18,6 +18,8 @@ namespace ASP_MCV_DataAssignments.Models.Service
 
         public Person Add(CreatePersonViewModel person)
         {
+
+
             return _peopleRepo.Create(person.Name, person.City, person.Phone);
         }
 
@@ -41,7 +43,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
 
             foreach (Person item in _peopleRepo.Read())
             {
-                if (item.City.Contains(search.FilterText, StringComparison.OrdinalIgnoreCase) || item.Name.Contains(search.FilterText, StringComparison.OrdinalIgnoreCase))
+                if (item.City.Name.Contains(search.FilterText, StringComparison.OrdinalIgnoreCase) || item.Name.Contains(search.FilterText, StringComparison.OrdinalIgnoreCase))
                 {
                     searchedPersonList.Add(item);
                 }
@@ -70,15 +72,6 @@ namespace ASP_MCV_DataAssignments.Models.Service
             }
 
             return deleted;
-        }
-
-        public void CreateDefaultPeople()
-        {
-            _peopleRepo.Create("Dennis Olsen", "Göteborg", 0701242112);
-            _peopleRepo.Create("Göran Ulgren", "Mamlö", 0801468723);
-            _peopleRepo.Create("Gustav Gustavsson", "Stockholm", 0705634853);
-            _peopleRepo.Create("Alexandra Svensson", "Karlskrona", 0601245213);
-            _peopleRepo.Create("Alexandra Sandström", "Göteborg", 0901245213);
         }
     }
 }

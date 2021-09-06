@@ -21,9 +21,21 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             }
         }
 
-        public Person Create(string name, string city, int phoneNumber)
+        public Person Create(string name, string stringCity, int phoneNumber)
         {
-            Person person = new Person(name, phoneNumber, city);
+            //City city = _context.Cities.Where(c => c.Name == stringCity);
+            List<City> cityList = _context.Cities.ToList();
+            City selectedCity = null;
+
+            // Define the query expression
+            IEnumerable<City> cityQuery =
+                from city in cityList
+                where city.Name == stringCity
+                select city;
+
+            selectedCity = cityQuery.First();
+
+            Person person = new Person(name, phoneNumber, selectedCity, "");
             idCounter++;
 
             _personList.Add(person);
@@ -66,21 +78,23 @@ namespace ASP_MCV_DataAssignments.Models.Repo
                 _personList = Read();
             }
 
-            // DEfine the query expression
+            // Define the query expression
             IEnumerable<Person> personQuery =
                 from person in _personList
                 where person.Id == id
                 select person;
 
-            // Execute the query
-            foreach (Person person1 in personQuery)
-            {
-                return person1;
-            }
+            Person person1 = personQuery.First();
+
+            //// Execute the query
+            //foreach (Person person2 in personQuery)
+            //{
+            //    return person2;
+            //}
 
             //Person p = _context.People.Find(id);
 
-            return null;
+            return person1;
         }
 
         public Person Update(Person person)

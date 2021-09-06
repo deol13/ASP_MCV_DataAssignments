@@ -13,7 +13,7 @@ namespace ASP_MCV_DataAssignments.Models.Repo
         public Person Create(string name, string city, int phoneNumber) //id   sent in from controller or just send in a Person
         {
             //Remember to remove id from Person constructor and from here because with [Key] the database set it automaticly.
-            Person person = new Person(name, phoneNumber, city, idCounter);
+            Person person = null;//= new Person(name, phoneNumber, city, idCounter);
             idCounter++;
 
             _personList.Add(person);

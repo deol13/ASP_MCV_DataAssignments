@@ -7,7 +7,7 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 {
     public interface IPeopleRepo
     {
-        Person Create(string name, string city, int phoneNumber);
+        Person Create(string name, string stringCity, int phoneNumber);
         List<Person> Read();
         Person Read(int id);
         Person Update(Person person);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace ASP_MCV_DataAssignments.Models.ViewModel
         [Required]
         [StringLength(15, MinimumLength = 1)]
         public string City { get; set; }
+
+        public SelectList selectList { get; set; }
 
         [Key]
         public int Id { get; set; }

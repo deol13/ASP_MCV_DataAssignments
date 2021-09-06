@@ -5,16 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ASP_MCV_DataAssignments.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ASP_MCV_DataAssignments.Controllers
 {
     public class PeopleController : Controller
     {
         IPeopleService _peopleService;
+        PeopleDbContext _context;
 
-        public PeopleController(IPeopleService peopleService)
+        public PeopleController(IPeopleService peopleService, PeopleDbContext context)
         {
             _peopleService = peopleService;
+            _context = context;
         }
 
         [HttpGet]
@@ -52,7 +56,11 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            CreatePersonViewModel vm = new CreatePersonViewModel();
+            vm.selectList = new SelectList(_context.Cities, "Name", "Name");
+            
+            return View(vm);
+            //return View();
         }
 
         [HttpPost]

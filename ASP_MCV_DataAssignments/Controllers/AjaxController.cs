@@ -21,11 +21,6 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (_peopleService.All().PersonList.Count == 0)
-            {
-                _peopleService.CreateDefaultPeople();
-                
-            }
             PeopleViewModel peopleViewModel = _peopleService.All();
 
             return View(peopleViewModel);

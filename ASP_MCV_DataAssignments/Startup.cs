@@ -31,9 +31,14 @@ namespace ASP_MCV_DataAssignments
 
             //services.AddScoped<IPeopleRepo, InMemoryPeopleRepo>();
 
+            services.AddScoped<IPeopleRepo, DatabasePeopleRepo>();
             services.AddScoped<IPeopleService, PeopleService>();
 
-            services.AddScoped<IPeopleRepo, DatabasePeopleRepo>();
+            services.AddScoped<ICityRepo, CityRepo>();
+            services.AddScoped<ICityService, CityService>();
+
+            services.AddScoped<ICountryRepo, CountryRepo>();
+            services.AddScoped<ICountryService, CountryService>();
 
             //An injection, only when already using injection. If you are not using injection, use Dbcontext constructor to create instances
             services.AddDbContext<PeopleDbContext>(options =>

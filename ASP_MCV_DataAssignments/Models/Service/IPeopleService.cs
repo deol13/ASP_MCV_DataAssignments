@@ -14,7 +14,5 @@ namespace ASP_MCV_DataAssignments.Models.Service
         Person Findby(int id);
         Person Edit(int id, Person person);
         bool Remove(int id);
-
-        void CreateDefaultPeople();
     }
 }
