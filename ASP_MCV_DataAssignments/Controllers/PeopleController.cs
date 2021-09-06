@@ -73,6 +73,7 @@ namespace ASP_MCV_DataAssignments.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            createPersonViewModel.selectList = new SelectList(_context.Cities, "Name", "Name");
             return View(createPersonViewModel);
         }
 

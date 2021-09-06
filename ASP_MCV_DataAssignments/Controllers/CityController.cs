@@ -24,7 +24,6 @@ namespace ASP_MCV_DataAssignments.Controllers
         //A Bunch of test to see if City and Country service's works
         public IActionResult Index()
         {
-
             ////Test1 All without anything in it
             //CitiesViewModel citiesViewModel = _citiesService.All();
 

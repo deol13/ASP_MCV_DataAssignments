@@ -35,7 +35,8 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
             selectedCity = cityQuery.First();
 
-            Person person = new Person(name, phoneNumber, selectedCity, "");
+            Person person = new Person(name, phoneNumber);
+            person.City = selectedCity;
             idCounter++;
 
             _personList.Add(person);
@@ -62,7 +63,8 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             if (_personList.Count == 0)
             {
                 _personList = _context.People.ToList();
-                idCounter = _personList.Last().Id;
+                if(_personList.Count != 0)
+                    idCounter = _personList.Last().Id;
             }
 
             return _personList;

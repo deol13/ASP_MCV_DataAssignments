@@ -12,7 +12,7 @@
         @Html.DisplayFor(model => model.Phone)
     </div>
     <div class="col-sm">
-        @Html.DisplayFor(model => model.City)
+        @Html.DisplayFor(model => model.City.Name)
     </div>
     <div class="col-sm">
         @Html.ActionLink("Delete", "Remove", "People", new { Model.Id }, null)

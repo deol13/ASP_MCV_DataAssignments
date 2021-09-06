@@ -13,6 +13,8 @@ namespace ASP_MCV_DataAssignments.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
 
         }
 

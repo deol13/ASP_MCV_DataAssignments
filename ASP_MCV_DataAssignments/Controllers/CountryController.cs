@@ -62,19 +62,17 @@ namespace ASP_MCV_DataAssignments.Controllers
             //bool t = _countriesService.Remove(4);
 
             ////Test 8 AddPersonToCity
-            //City city1 = _context.Cities.Find(1);
-            //City city2 = _context.Cities.Find(2);
-            //City city3 = _context.Cities.Find(3);
-            //City city4 = _context.Cities.Find(6);
-            //City city5 = _context.Cities.Find(8);
-            //City city6 = _context.Cities.Find(9);
+            //City city1 = _context.Cities.Find(10);
+            //City city2 = _context.Cities.Find(12);
+            //City city3 = _context.Cities.Find(13);
+            //City city4 = _context.Cities.Find(14);
+            //City city5 = _context.Cities.Find(15);
 
-            //_countriesService.AddCityToCountry(1, city1);
-            //_countriesService.AddCityToCountry(1, city2);
-            //_countriesService.AddCityToCountry(1, city3);
-            //_countriesService.AddCityToCountry(1, city4);
-            //_countriesService.AddCityToCountry(1, city5);
-            //_countriesService.AddCityToCountry(1, city6);
+            //_countriesService.AddCityToCountry(5, city1);
+            //_countriesService.AddCityToCountry(5, city2);
+            //_countriesService.AddCityToCountry(5, city3);
+            //_countriesService.AddCityToCountry(5, city4);
+            //_countriesService.AddCityToCountry(5, city5);
 
             return View();
         }
