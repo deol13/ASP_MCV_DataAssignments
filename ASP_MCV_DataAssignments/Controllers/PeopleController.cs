@@ -7,17 +7,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using ASP_MCV_DataAssignments.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ASP_MCV_DataAssignments.Models;
 
 namespace ASP_MCV_DataAssignments.Controllers
 {
     public class PeopleController : Controller
     {
         IPeopleService _peopleService;
+        ICityService _cityService;
         PeopleDbContext _context;
 
-        public PeopleController(IPeopleService peopleService, PeopleDbContext context)
+        public PeopleController(IPeopleService peopleService, ICityService cityService,  PeopleDbContext context)
         {
             _peopleService = peopleService;
+            _cityService = cityService;
             _context = context;
         }
 
@@ -68,7 +71,11 @@ namespace ASP_MCV_DataAssignments.Controllers
         {
             if (ModelState.IsValid)
             {
-                _peopleService.Add(createPersonViewModel);
+                Person person = _peopleService.Add(createPersonViewModel);
+
+                int cityId = _context.Cities.Where(c => c.Name == createPersonViewModel.City).First().CityId;
+
+                _cityService.AddPersonToCity(cityId, person);
 
                 return RedirectToAction(nameof(Index));
             }

@@ -15,7 +15,22 @@ namespace ASP_MCV_DataAssignments.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<KnownLanguage>().HasKey(kl =>
+            new
+            {
+                kl.PersonId,
+                kl.LanguageId
+            });
 
+            modelBuilder.Entity<KnownLanguage>()
+                .HasOne<Person>(kl => kl.Person)
+                .WithMany(p => p.KnownLanguageList)
+                .HasForeignKey(kl => kl.PersonId);
+
+            modelBuilder.Entity<KnownLanguage>()
+                .HasOne<Language>(kl => kl.Language)
+                .WithMany(l => l.KnownLanguageList)
+                .HasForeignKey(kl => kl.LanguageId);
         }
 
         public DbSet<Person> People { get; set; }
@@ -23,5 +38,7 @@ namespace ASP_MCV_DataAssignments.Data
         public DbSet<City> Cities { get; set; }
 
         public DbSet<Country> Countries { get; set; }
+
+        public DbSet<Language> Languages { get; set; }
     }
 }

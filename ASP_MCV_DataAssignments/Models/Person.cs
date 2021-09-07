@@ -23,16 +23,21 @@ namespace ASP_MCV_DataAssignments.Models
         [Required]
         public City City { get; set; }
 
+        [Required]
+        public List<KnownLanguage> KnownLanguageList { get; set; }
+
         public Person(string Name, int Phone)
         {
             this.Name = Name;
             this.Phone = Phone;
+            KnownLanguageList = new List<KnownLanguage>();
         }
         public Person(string Name, int Phone, int Id)
         {
             this.Name = Name;
             this.Phone = Phone;
             this.Id = Id;
+            KnownLanguageList = new List<KnownLanguage>();
         }
     }
 }

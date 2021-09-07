@@ -23,6 +23,8 @@ namespace ASP_MCV_DataAssignments.Models.ViewModel
 
         public SelectList selectList { get; set; }
 
+        public SelectList selectLanguageList { get; set; }
+
         [Key]
         public int Id { get; set; }
 
