@@ -13,11 +13,13 @@ namespace ASP_MCV_DataAssignments.Controllers
     public class PeopleController : Controller
     {
         IPeopleService _peopleService;
+        ICityService _cityService;
         PeopleDbContext _context;
 
-        public PeopleController(IPeopleService peopleService, PeopleDbContext context)
+        public PeopleController(IPeopleService peopleService, ICityService cityService, PeopleDbContext context)
         {
             _peopleService = peopleService;
+            _cityService = cityService;
             _context = context;
         }
 
