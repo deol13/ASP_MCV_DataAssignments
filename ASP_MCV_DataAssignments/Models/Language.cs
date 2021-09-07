@@ -19,10 +19,9 @@ namespace ASP_MCV_DataAssignments.Models
         [Required]
         public List<KnownLanguage> KnownLanguageList { get; set; }
 
-        public Language(string Name, int LanguageId)
+        public Language(string Name)
         {
             this.Name = Name;
-            this.LanguageId = LanguageId;
             KnownLanguageList = new List<KnownLanguage>();
         }
     }

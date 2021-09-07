@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASP_MCV_DataAssignments.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,34 +8,73 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 {
     public class LanguageRepo : ILanguageRepo
     {
-        public Person AddPersonToLanguage(int id, Person person)
+        private readonly PeopleDbContext _context;
+
+        public LanguageRepo(PeopleDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public KnownLanguage AddPersonToLanguage(int id, Person person)
+        {
+            Language language = Read(id);
+
+            KnownLanguage knownLanguage = new KnownLanguage();
+            knownLanguage.Person = person;
+            knownLanguage.PersonId = person.Id;
+            knownLanguage.Language = language;
+            knownLanguage.LanguageId = language.LanguageId;
+
+            language.KnownLanguageList.Add(knownLanguage);
+
+            _context.Languages.Update(language);
+            _context.SaveChanges();
+
+            return knownLanguage;
         }
 
         public Language Create(string name)
         {
-            throw new NotImplementedException();
+            Language language = new Language(name);
+
+            _context.Languages.Add(language);
+            _context.SaveChanges();
+
+            return language;
         }
 
         public bool Delete(Language language)
         {
-            throw new NotImplementedException();
+            _context.Languages.Remove(language);
+            int nrOfChanges = _context.SaveChanges();
+
+            bool deleted = false;
+            if (nrOfChanges == 1)
+                deleted = true;
+
+            return deleted;
         }
 
         public List<Language> Read()
         {
-            throw new NotImplementedException();
+            List<Language> languages = _context.Languages.ToList();
+
+            return languages;
         }
 
         public Language Read(int id)
         {
-            throw new NotImplementedException();
+            Language language = _context.Languages.Find(id);
+
+            return language;
         }
 
         public Language Update(Language language)
         {
-            throw new NotImplementedException();
+            _context.Languages.Update(language);
+            _context.SaveChanges();
+
+            return language;
         }
     }
 }

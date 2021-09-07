@@ -40,6 +40,9 @@ namespace ASP_MCV_DataAssignments
             services.AddScoped<ICountryRepo, CountryRepo>();
             services.AddScoped<ICountryService, CountryService>();
 
+            services.AddScoped<ILanguageRepo, LanguageRepo>();
+            services.AddScoped<ILanguageService, LanguageService>();
+
             //An injection, only when already using injection. If you are not using injection, use Dbcontext constructor to create instances
             services.AddDbContext<PeopleDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("PeopleDb")));

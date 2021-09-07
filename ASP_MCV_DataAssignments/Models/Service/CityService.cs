@@ -65,7 +65,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
         {
             City city = _citiesRepo.Read(id);
 
-            return _citiesRepo.Delete(city); ;
+            return _citiesRepo.Delete(city);
         }
     }
 }

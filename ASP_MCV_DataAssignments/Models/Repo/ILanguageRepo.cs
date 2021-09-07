@@ -7,7 +7,7 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 {
     public interface ILanguageRepo
     {
-        Person AddPersonToLanguage(int id, Person person);
+        KnownLanguage AddPersonToLanguage(int id, Person person);
         Language Create(string name);
         List<Language> Read();
         Language Read(int id);
