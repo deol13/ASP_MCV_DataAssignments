@@ -3,14 +3,16 @@ using ASP_MCV_DataAssignments.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASP_MCV_DataAssignments.Migrations
 {
     [DbContext(typeof(PeopleDbContext))]
-    partial class PeopleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210907072833_Added Country object to City class")]
+    partial class AddedCountryobjecttoCityclass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

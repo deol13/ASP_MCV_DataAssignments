@@ -10,10 +10,14 @@ namespace ASP_MCV_DataAssignments.Models
     {
         [Key]
         public int CityId { get; set; }
+
         [Required]
         [MaxLength(15)]
         [MinLength(1)]
         public string Name { get; set; }
+
+        [Required]
+        public Country Country { get; set; }
 
         public List<Person> PeopleInCity { get; set; }
 
