@@ -115,7 +115,6 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
                     _personList = _context.People.ToList();
                     idCounter = _personList.Last().Id;
-
                 }
             }
 

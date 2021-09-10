@@ -30,7 +30,8 @@ namespace ASP_MCV_DataAssignments.Controllers
         public IActionResult Index()
         {
             List<KnownLanguage> knownLanguage = _context.KnownLanguages.ToList();
-            CitiesViewModel citiesViewModel2 = _cityService.All();
+            LanguagesViewModel languagesViewModel = _languageService.All();
+            CitiesViewModel citiesViewModel = _cityService.All();
 
             return View(_peopleService.All());
         }
