@@ -9,16 +9,13 @@ namespace ASP_MCV_DataAssignments.Models.Repo
     public class DatabasePeopleRepo : IPeopleRepo
     {
         private static List<Person> _personList = new List<Person>();
-        private static int idCounter = 0;
         private readonly PeopleDbContext _context;
 
         public DatabasePeopleRepo(PeopleDbContext context)
         {
             _context = context;
-            if (_personList.Count == 0)
-            {
-                _personList = Read();
-            }
+            if(_personList.Count == 0)
+                _personList = _context.People.ToList();
         }
 
         public Person Create(string name, int cityId, List<int> languageIds, int phoneNumber)
@@ -47,7 +44,6 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             person.KnownLanguageList = knownLanguages;
 
             _personList.Add(person);
-            idCounter++;
 
             _context.People.Add(person);
             _context.SaveChanges();
@@ -69,35 +65,19 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
         public List<Person> Read()
         {
-            if (_personList.Count == 0)
-            {
-                _personList = _context.People.ToList();
-                if(_personList.Count != 0)
-                    idCounter = _personList.Last().Id;
-            }
-
             return _personList;
         }
 
         public Person Read(int id)
         {
             //LINQ expression
-
-            // Specify the datasource
-            if (_personList.Count == 0)
-            {
-                _personList = Read();
-            }
-
             // Define the query expression
             IEnumerable<Person> personQuery =
                 from person in _personList
                 where person.Id == id
                 select person;
 
-            Person person1 = personQuery.First();
-
-            return person1;
+            return personQuery.First();
         }
 
         public Person Update(Person person)
@@ -114,7 +94,6 @@ namespace ASP_MCV_DataAssignments.Models.Repo
                     _context.SaveChanges();
 
                     _personList = _context.People.ToList();
-                    idCounter = _personList.Last().Id;
                 }
             }
 

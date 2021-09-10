@@ -32,6 +32,7 @@ namespace ASP_MCV_DataAssignments.Controllers
             List<KnownLanguage> knownLanguage = _context.KnownLanguages.ToList();
             LanguagesViewModel languagesViewModel = _languageService.All();
             CitiesViewModel citiesViewModel = _cityService.All();
+            List<Country> countries = _context.Countries.ToList();
 
             return View(_peopleService.All());
         }
