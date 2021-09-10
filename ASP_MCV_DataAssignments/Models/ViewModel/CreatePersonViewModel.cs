@@ -17,9 +17,13 @@ namespace ASP_MCV_DataAssignments.Models.ViewModel
         [DataType(DataType.PhoneNumber)]
         public int Phone { get; set; }
 
-        [Required]
-        [StringLength(15, MinimumLength = 1)]
         public string City { get; set; }
+        public string Language { get; set; }
+
+        [Required]
+        public int CityId { get; set; }
+        [Required]
+        public List<int> LanguageId { get; set; }
 
         public SelectList selectList { get; set; }
 

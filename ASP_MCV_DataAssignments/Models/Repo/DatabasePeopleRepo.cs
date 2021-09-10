@@ -21,25 +21,34 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             }
         }
 
-        public Person Create(string name, string stringCity, int phoneNumber)
+        public Person Create(string name, int cityId, List<int> languageIds, int phoneNumber)
         {
-            //City city = _context.Cities.Where(c => c.Name == stringCity);
-            List<City> cityList = _context.Cities.ToList();
-            City selectedCity = null;
-
-            // Define the query expression
-            IEnumerable<City> cityQuery =
-                from city in cityList
-                where city.Name == stringCity
-                select city;
-
-            selectedCity = cityQuery.First();
+            City city = _context.Cities.Find(cityId);
 
             Person person = new Person(name, phoneNumber);
-            person.City = selectedCity;
-            idCounter++;
+            person.City = city;
+
+            List<KnownLanguage> knownLanguages = new List<KnownLanguage>();
+            Language language;
+            foreach (int item in languageIds)
+            {
+                language = null;
+                language = _context.Languages.Find(item);
+
+                KnownLanguage knownLanguage = new KnownLanguage();
+                knownLanguage.Person = person;
+                knownLanguage.PersonId = person.Id;
+                knownLanguage.Language = language;
+                knownLanguage.LanguageId = language.LanguageId;
+
+                knownLanguages.Add(knownLanguage);
+                _context.KnownLanguages.Add(knownLanguage);
+            }
+            person.KnownLanguageList = knownLanguages;
 
             _personList.Add(person);
+            idCounter++;
+
             _context.People.Add(person);
             _context.SaveChanges();
 
@@ -88,14 +97,6 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
             Person person1 = personQuery.First();
 
-            //// Execute the query
-            //foreach (Person person2 in personQuery)
-            //{
-            //    return person2;
-            //}
-
-            //Person p = _context.People.Find(id);
-
             return person1;
         }
 
@@ -111,6 +112,10 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
                     _context.People.Update(item);
                     _context.SaveChanges();
+
+                    _personList = _context.People.ToList();
+                    idCounter = _personList.Last().Id;
+
                 }
             }
 

@@ -15,24 +15,6 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             _context = context;
         }
 
-        public KnownLanguage AddPersonToLanguage(int id, Person person)
-        {
-            Language language = Read(id);
-
-            KnownLanguage knownLanguage = new KnownLanguage();
-            knownLanguage.Person = person;
-            knownLanguage.PersonId = person.Id;
-            knownLanguage.Language = language;
-            knownLanguage.LanguageId = language.LanguageId;
-
-            language.KnownLanguageList.Add(knownLanguage);
-
-            _context.Languages.Update(language);
-            _context.SaveChanges();
-
-            return knownLanguage;
-        }
-
         public Language Create(string name)
         {
             Language language = new Language(name);

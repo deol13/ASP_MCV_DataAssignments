@@ -14,6 +14,14 @@
     <div class="col-sm">
         @Html.DisplayFor(model => model.City.Name)
     </div>
+    <div>
+        <select>
+            @foreach (KnownLanguage item in Model.KnownLanguageList)
+            {
+                <option>@item.Language.Name</option>
+            }
+        </select>
+    </div>
     <div class="col-sm">
         @Html.ActionLink("Delete", "Remove", "People", new { Model.Id }, null)
     </div>

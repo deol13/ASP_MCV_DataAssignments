@@ -15,17 +15,6 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             _context = context;
         }
 
-        public Person AddPersonToCity(int id, Person person)
-        {
-            City city = Read(id);
-            city.PeopleInCity.Add(person);
-
-            _context.Cities.Update(city);
-            _context.SaveChanges();
-
-            return person;
-        }
-
         public City Create(string name)
         {
             City city = new City(name);

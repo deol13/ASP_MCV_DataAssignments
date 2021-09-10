@@ -40,5 +40,7 @@ namespace ASP_MCV_DataAssignments.Data
         public DbSet<Country> Countries { get; set; }
 
         public DbSet<Language> Languages { get; set; }
+
+        public DbSet<KnownLanguage> KnownLanguages { get; set; }
     }
 }

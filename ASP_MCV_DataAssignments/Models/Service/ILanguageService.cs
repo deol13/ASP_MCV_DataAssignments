@@ -9,7 +9,6 @@ namespace ASP_MCV_DataAssignments.Models.Service
     public interface ILanguageService
     {
         Language Add(CreateLanguageViewModel language);
-        KnownLanguage AddPersonToCity(int id, Person person);
         LanguagesViewModel All();
         LanguagesViewModel FindBy(LanguagesViewModel search);
         Language Findby(int id);

@@ -18,9 +18,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
 
         public Person Add(CreatePersonViewModel person)
         {
-
-
-            return _peopleRepo.Create(person.Name, person.City, person.Phone);
+            return _peopleRepo.Create(person.Name, person.CityId, person.LanguageId, person.Phone);
         }
 
         public PeopleViewModel All()
@@ -34,7 +32,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
 
         public Person Edit(int id, Person person)
         {
-            return _peopleRepo.Update(person); //ID?
+            return _peopleRepo.Update(person);
         }
 
         public PeopleViewModel FindBy(PeopleViewModel search)

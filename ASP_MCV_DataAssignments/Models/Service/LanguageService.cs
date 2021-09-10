@@ -21,11 +21,6 @@ namespace ASP_MCV_DataAssignments.Models.Service
             return _languagesRepo.Create(language.Name);
         }
 
-        public KnownLanguage AddPersonToCity(int id, Person person)
-        {
-            return _languagesRepo.AddPersonToLanguage(id, person);
-        }
-
         public LanguagesViewModel All()
         {
             LanguagesViewModel languagesViewModel = new LanguagesViewModel();

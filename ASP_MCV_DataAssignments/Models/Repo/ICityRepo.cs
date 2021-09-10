@@ -7,7 +7,6 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 {
     public interface ICityRepo
     {
-        Person AddPersonToCity(int id, Person person);
         City Create(string name);
         List<City> Read();
         City Read(int id);

@@ -15,29 +15,22 @@ namespace ASP_MCV_DataAssignments.Controllers
     {
         IPeopleService _peopleService;
         ICityService _cityService;
+        ILanguageService _languageService;
         PeopleDbContext _context;
 
-        public PeopleController(IPeopleService peopleService, ICityService cityService,  PeopleDbContext context)
+        public PeopleController(IPeopleService peopleService, ICityService cityService, ILanguageService languageService, PeopleDbContext context)
         {
             _peopleService = peopleService;
             _cityService = cityService;
+            _languageService = languageService;
             _context = context;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            ////Just to test edit/updatem methods
-            //PeopleViewModel peopleViewModel = new PeopleViewModel();
-
-            //peopleViewModel = _peopleService.All();
-            //Update();
-
-            ////Had to remove this to check if read() actually gets the databases table if local list is empty
-            //if(_peopleService.All().PersonList.Count == 0)
-            //{
-            //    _peopleService.CreateDefaultPeople();
-            //}
+            List<KnownLanguage> knownLanguage = _context.KnownLanguages.ToList();
+            CitiesViewModel citiesViewModel2 = _cityService.All();
 
             return View(_peopleService.All());
         }
@@ -60,10 +53,10 @@ namespace ASP_MCV_DataAssignments.Controllers
         public IActionResult Create()
         {
             CreatePersonViewModel vm = new CreatePersonViewModel();
-            vm.selectList = new SelectList(_context.Cities, "Name", "Name");
-            
+            vm.selectList = new SelectList(_context.Cities, "CityId", "Name"); //Change so the id is sent back.
+            vm.selectLanguageList = new SelectList(_context.Languages, "LanguageId", "Name"); //Change so the id is sent back
+
             return View(vm);
-            //return View();
         }
 
         [HttpPost]
@@ -72,10 +65,6 @@ namespace ASP_MCV_DataAssignments.Controllers
             if (ModelState.IsValid)
             {
                 Person person = _peopleService.Add(createPersonViewModel);
-
-                int cityId = _context.Cities.Where(c => c.Name == createPersonViewModel.City).First().CityId;
-
-                _cityService.AddPersonToCity(cityId, person);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -90,12 +79,5 @@ namespace ASP_MCV_DataAssignments.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        //public void Update()
-        //{
-        //    //Old ("Ola", 51239881, "Bergsjön", 2);
-        //    Person person = new Person("Björn bergtop", 95235233, "Malmö", 2);
-        //    _peopleService.Edit(2, person);
-        //}
     }
 }
