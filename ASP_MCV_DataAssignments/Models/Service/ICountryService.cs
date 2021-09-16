@@ -13,7 +13,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
         CountriesViewModel All();
         CountriesViewModel FindBy(CountriesViewModel search);
         Country Findby(int id);
-        Country Edit(int id, Country country);
+        Country Edit(CreateCountryViewModel country);
         bool Remove(int id);
 
         

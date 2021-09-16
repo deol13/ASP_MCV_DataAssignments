@@ -2,7 +2,9 @@
 using ASP_MCV_DataAssignments.Models;
 using ASP_MCV_DataAssignments.Models.Service;
 using ASP_MCV_DataAssignments.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ASP_MCV_DataAssignments.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CityController : Controller
     {
         ICityService _citiesService;
@@ -21,17 +24,111 @@ namespace ASP_MCV_DataAssignments.Controllers
             _context = context;
         }
 
-        //A Bunch of test to see if City and Country service's works
+        
         public IActionResult Index()
         {
+            //List<City> cities = _context.Cities.ToList();
+            List<Country> countries = _context.Countries.ToList();
+
+            return View(_citiesService.All());
+        }
+
+        [HttpPost]
+        public IActionResult Index(CitiesViewModel citiesViewModel)
+        {
+            if (citiesViewModel.FilterText != null)
+            {
+                citiesViewModel = _citiesService.FindBy(citiesViewModel);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(citiesViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            CreateCityViewModel vm = new CreateCityViewModel();
+            vm.selectList = new SelectList(_context.Cities, "PeopleIds", "Name"); //Change so the id is sent back.
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateCityViewModel createCitiesViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                City city = _citiesService.Add(createCitiesViewModel);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            createCitiesViewModel.selectList = new SelectList(_context.Cities, "PeopleIds", "Name");
+
+            return View(createCitiesViewModel);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            CreateCityViewModel vm = new CreateCityViewModel();
+            City city = _citiesService.Findby(id);
+
+            vm.CityId = id;
+            vm.Name = city.Name;
+
+            List<int> PeopleIds = new List<int>();
+            foreach (var item in city.PeopleInCity)
+            {
+                PeopleIds.Add(item.Id);
+            }
+            vm.PeopleIds = PeopleIds;
+
+            vm.selectList = new SelectList(_context.Cities, "PeopleIds", "Name"); //Change so the id is sent back.
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(CreateCityViewModel createCityViewModel) //Or  EditPersonViewModel editPersonViewModel
+        {
+            if (ModelState.IsValid)
+            {
+                City city = _citiesService.Edit(createCityViewModel);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            createCityViewModel.selectList = new SelectList(_context.Cities, "PeopleIds", "Name");
+
+            return View(createCityViewModel);
+        }
+
+        public IActionResult Remove(int id)
+        {
+            _citiesService.Remove(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+        public void Test()
+        {
+            //addDefaultValues();
+
+
             ////Test1 All without anything in it
             //CitiesViewModel citiesViewModel = _citiesService.All();
 
             ////Test2 Add
             //CreateCityViewModel createCityViewModel = new CreateCityViewModel();
-            //createCityViewModel.Name = "Göteborg";
-
+            //createCityViewModel.Name = "Stockholm";
             //_citiesService.Add(createCityViewModel);
+
 
             ////Test 3 All with something in it
             //CitiesViewModel citiesViewModel3 = _citiesService.All();
@@ -69,8 +166,68 @@ namespace ASP_MCV_DataAssignments.Controllers
 
             //_citiesService.AddPersonToCity(1, person1);
             //_citiesService.AddPersonToCity(1, person2);
+        }
 
-            return View();
+        public void addDefaultValues()
+        {
+            Country Sweden = _context.Countries.Find(1);
+            Country England = _context.Countries.Find(2);
+            Country Spain = _context.Countries.Find(3);
+            Country Germany = _context.Countries.Find(4);
+            Country France = _context.Countries.Find(5);
+            Country Russia = _context.Countries.Find(6);
+
+            City city1 = new City("Stockholm");
+            City city2 = new City("Gothenburg");
+
+            City city3 = new City("London");
+            City city4 = new City("Oxford");
+
+            City city5 = new City("Madrid");
+            City city6 = new City("Zaragoza");
+
+            City city7 = new City("Berlin");
+            City city8 = new City("Hamburg");
+
+            City city9 = new City("Paris");
+            City city10 = new City("Lyon");
+
+            City city11 = new City("Moscow");
+            City city12 = new City("Volgograd");
+
+            city1.Country = Sweden;
+            city2.Country = Sweden;
+
+            city3.Country = England;
+            city4.Country = England;
+
+            city5.Country = Spain;
+            city6.Country = Spain;
+
+            city7.Country = Germany;
+            city8.Country = Germany;
+
+            city9.Country = France;
+            city10.Country = France;
+
+            city11.Country = Russia;
+            city12.Country = Russia;
+
+            _context.Cities.Add(city1);
+            _context.Cities.Add(city2);
+            _context.Cities.Add(city3);
+            _context.Cities.Add(city4);
+            _context.Cities.Add(city5);
+            _context.Cities.Add(city6);
+            _context.Cities.Add(city7);
+            _context.Cities.Add(city8);
+            _context.Cities.Add(city9);
+            _context.Cities.Add(city10);
+            _context.Cities.Add(city11);
+            _context.Cities.Add(city12);
+
+            _context.SaveChanges();
+
         }
     }
 }

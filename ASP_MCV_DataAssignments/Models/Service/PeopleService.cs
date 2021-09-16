@@ -30,7 +30,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
             return peopleViewModel;
         }
 
-        public Person Edit(int id, Person person)
+        public Person Edit(CreatePersonViewModel person)
         {
             return _peopleRepo.Update(person);
         }

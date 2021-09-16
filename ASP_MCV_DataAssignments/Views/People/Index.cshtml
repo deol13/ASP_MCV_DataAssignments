@@ -3,15 +3,18 @@
     ViewData["Title"] = "Index";
 }
 
-<a asp-action="Create">Create</a>
-
-<form asp-action="Index" method="post">
-    <label asp-for="FilterText"></label>
-    <input asp-for="FilterText" />
-</form>
-
-
-@foreach (var item in Model.PersonList)
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
 {
-    <partial name="../Ajax/PersonPartial.cshtml" for="@item" />
+    <a asp-action="Create">Create</a>
+
+    <form asp-action="Index" method="post">
+        <label asp-for="FilterText"></label>
+        <input asp-for="FilterText" />
+    </form>
+
+
+    @foreach (var item in Model.PersonList)
+    {
+        <partial name="../Ajax/PersonPartial.cshtml" for="@item" />
+    }
 }

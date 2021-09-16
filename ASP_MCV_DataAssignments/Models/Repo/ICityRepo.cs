@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASP_MCV_DataAssignments.Models.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace ASP_MCV_DataAssignments.Models.Repo
         City Create(string name);
         List<City> Read();
         City Read(int id);
-        City Update(City city);
+        City Update(CreateCityViewModel city);
         bool Delete(City city);
     }
 }

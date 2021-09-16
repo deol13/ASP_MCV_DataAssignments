@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASP_MCV_DataAssignments.Models.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,19 +47,20 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             return null;
         }
 
-        public Person Update(Person person)
+        public Person Update(CreatePersonViewModel person)
         {
-            foreach (Person item in _personList)
-            {
-                if (item.Id == person.Id)
-                {
-                    item.Name = person.Name;
-                    item.Phone = person.Phone;
-                    item.City = person.City;
-                }
-            }
+            //foreach (Person item in _personList)
+            //{
+            //    if (item.Id == person.Id)
+            //    {
+            //        item.Name = person.Name;
+            //        item.Phone = person.Phone;
+            //        item.City = person.City;
+            //    }
+            //}
+            Person person1 = new Person(person.Name, person.Phone);
 
-            return person;
+            return person1;
         }
     }
 }

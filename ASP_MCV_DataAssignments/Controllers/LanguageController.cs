@@ -2,6 +2,7 @@
 using ASP_MCV_DataAssignments.Models;
 using ASP_MCV_DataAssignments.Models.Service;
 using ASP_MCV_DataAssignments.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ASP_MCV_DataAssignments.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class LanguageController : Controller
     {
         ILanguageService _languageService;
@@ -28,19 +30,7 @@ namespace ASP_MCV_DataAssignments.Controllers
             //LanguagesViewModel languagesViewModel = _languageService.All();
 
             ////Test2 Add
-            //CreateLanguageViewModel createLanguageViewModel = new CreateLanguageViewModel();
-            //CreateLanguageViewModel createLanguageViewModel2 = new CreateLanguageViewModel();
-            //CreateLanguageViewModel createLanguageViewModel3 = new CreateLanguageViewModel();
-            //CreateLanguageViewModel createLanguageViewModel4 = new CreateLanguageViewModel();
-            //createLanguageViewModel.Name = "Swedish";
-            //createLanguageViewModel2.Name = "French";
-            //createLanguageViewModel3.Name = "Mandarin";
-            //createLanguageViewModel4.Name = "Spanish";
-
-            //_languageService.Add(createLanguageViewModel);
-            //_languageService.Add(createLanguageViewModel2);
-            //_languageService.Add(createLanguageViewModel3);
-            //_languageService.Add(createLanguageViewModel4);
+            //addDefaultLanguagesValues();
 
             ////Test 3 All with something in it
             //LanguagesViewModel languagesViewModel3 = _languageService.All();
@@ -74,6 +64,22 @@ namespace ASP_MCV_DataAssignments.Controllers
 
 
             return View();
+        }
+        public void addDefaultLanguagesValues()
+        {
+            CreateLanguageViewModel createLanguageViewModel = new CreateLanguageViewModel();
+            CreateLanguageViewModel createLanguageViewModel2 = new CreateLanguageViewModel();
+            CreateLanguageViewModel createLanguageViewModel3 = new CreateLanguageViewModel();
+            CreateLanguageViewModel createLanguageViewModel4 = new CreateLanguageViewModel();
+            createLanguageViewModel.Name = "Swedish";
+            createLanguageViewModel2.Name = "French";
+            createLanguageViewModel3.Name = "Mandarin";
+            createLanguageViewModel4.Name = "Spanish";
+
+            _languageService.Add(createLanguageViewModel);
+            _languageService.Add(createLanguageViewModel2);
+            _languageService.Add(createLanguageViewModel3);
+            _languageService.Add(createLanguageViewModel4);
         }
     }
 }

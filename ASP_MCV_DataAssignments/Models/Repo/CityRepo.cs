@@ -1,4 +1,5 @@
 ﻿using ASP_MCV_DataAssignments.Data;
+using ASP_MCV_DataAssignments.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,8 +52,18 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             return city;
         }
 
-        public City Update(City city)
+        public City Update(CreateCityViewModel cityViewModel)
         {
+            City city = new City(cityViewModel.Name);
+            city.CityId = cityViewModel.CityId;
+
+            List<Person> people = new List<Person>();
+            foreach (var item in cityViewModel.PeopleIds)
+            {
+                people.Add(_context.People.Find(item));
+            }
+            city.PeopleInCity = people;
+
             _context.Cities.Update(city);
             _context.SaveChanges();
 

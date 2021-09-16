@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using ASP_MCV_DataAssignments.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ASP_MCV_DataAssignments.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASP_MCV_DataAssignments.Controllers
 {
+    [Authorize(Roles = "Admin, User")]
     public class PeopleController : Controller
     {
         IPeopleService _peopleService;
@@ -29,9 +31,6 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-
-
-
             List<KnownLanguage> knownLanguage = _context.KnownLanguages.ToList();
             LanguagesViewModel languagesViewModel = _languageService.All();
             CitiesViewModel citiesViewModel = _cityService.All();
@@ -74,10 +73,57 @@ namespace ASP_MCV_DataAssignments.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            createPersonViewModel.selectList = new SelectList(_context.Cities, "Name", "Name");
+            createPersonViewModel.selectList = new SelectList(_context.Cities, "CityId", "Name");
+            createPersonViewModel.selectLanguageList = new SelectList(_context.Languages, "LanguageId", "Name"); //Change so the id is sent back
+
             return View(createPersonViewModel);
         }
 
+        public IActionResult Edit(int id)
+        {
+            CreatePersonViewModel vm = new CreatePersonViewModel();
+            Person person = _peopleService.Findby(id);
+
+            vm.Id = id;
+            vm.Name = person.Name;
+            vm.Phone = person.Phone;
+            vm.City = person.City.Name;
+            vm.CityId = person.City.CityId;
+
+            List<int> lIds = new List<int>();
+            foreach (var item in person.KnownLanguageList)
+            {
+                lIds.Add(item.LanguageId);
+            }
+            vm.LanguageId = lIds;
+
+            vm.selectList = new SelectList(_context.Cities, "CityId", "Name"); //Change so the id is sent back.
+            vm.selectLanguageList = new SelectList(_context.Languages, "LanguageId", "Name"); //Change so the id is sent back
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(CreatePersonViewModel createPersonViewModel) //Or  EditPersonViewModel editPersonViewModel
+        {
+            if (ModelState.IsValid)
+            {
+                List<Person> ppptesst = _context.People.ToList();
+                List<KnownLanguage> teeest = _context.KnownLanguages.ToList();
+                List<Language> llltteest = _context.Languages.ToList();
+
+                Person person = _peopleService.Edit(createPersonViewModel);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            createPersonViewModel.selectList = new SelectList(_context.Cities, "Name", "Name");
+            createPersonViewModel.selectLanguageList = new SelectList(_context.Languages, "LanguageId", "Name"); //Change so the id is sent back
+
+            return View(createPersonViewModel);
+        }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Remove(int id)
         {
             _peopleService.Remove(id);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASP_MCV_DataAssignments.Models.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace ASP_MCV_DataAssignments.Models.Repo
         Country Create(string name);
         List<Country> Read();
         Country Read(int id);
-        Country Update(Country country);
+        Country Update(CreateCountryViewModel country);
         bool Delete(Country country);
 
        

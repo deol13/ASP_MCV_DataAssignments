@@ -1,4 +1,5 @@
 ﻿using ASP_MCV_DataAssignments.Data;
+using ASP_MCV_DataAssignments.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,8 +63,18 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             return country;
         }
 
-        public Country Update(Country country)
+        public Country Update(CreateCountryViewModel countryViewModel)
         {
+            Country country = new Country(countryViewModel.Name);
+            country.CountryId = countryViewModel.CountryId;
+
+            List<City> cities = new List<City>();
+            foreach (var item in countryViewModel.CitiesId)
+            {
+                cities.Add(_context.Cities.Find(item));
+            }
+            country.Cities = cities;
+
             _context.Countries.Update(country);
             _context.SaveChanges();
 

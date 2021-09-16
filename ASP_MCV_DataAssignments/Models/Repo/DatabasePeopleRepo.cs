@@ -1,4 +1,5 @@
 ﻿using ASP_MCV_DataAssignments.Data;
+using ASP_MCV_DataAssignments.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,22 +81,38 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             return personQuery.First();
         }
 
-        public Person Update(Person person)
+        public Person Update(CreatePersonViewModel createPersonViewModel)
         {
-            foreach (Person item in _personList)
+            Person person = _context.People.Find(createPersonViewModel.Id);
+            person.Name = createPersonViewModel.Name;
+            person.Phone = createPersonViewModel.Phone;
+            person.City = _context.Cities.Find(createPersonViewModel.CityId);
+            List<KnownLanguage> knownLanguages = new List<KnownLanguage>();
+
+            foreach (var item in person.KnownLanguageList)
             {
-                if (item.Id == person.Id)
-                {
-                    item.Name = person.Name;
-                    item.Phone = person.Phone;
-                    item.City = person.City;
-
-                    _context.People.Update(item);
-                    _context.SaveChanges();
-
-                    _personList = _context.People.ToList();
-                }
+                _context.KnownLanguages.Remove(item);
             }
+            _context.SaveChanges();
+
+
+            foreach (int id in createPersonViewModel.LanguageId)
+            {
+                KnownLanguage knownLanguage = new KnownLanguage();
+                knownLanguage.Language = _context.Languages.Find(id);
+                knownLanguage.LanguageId = id;
+                knownLanguage.Person = person;
+                knownLanguage.PersonId = person.Id;
+
+                knownLanguages.Add(knownLanguage);
+                _context.KnownLanguages.Add(knownLanguage);
+            }
+            person.KnownLanguageList = knownLanguages;
+
+            _context.People.Update(person);
+            _context.SaveChanges();
+
+            _personList = _context.People.ToList();
 
             return person;
         }

@@ -12,7 +12,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
         CitiesViewModel All();
         CitiesViewModel FindBy(CitiesViewModel search);
         City Findby(int id);
-        City Edit(int id, City city);
+        City Edit(CreateCityViewModel city);
         bool Remove(int id);
     }
 }

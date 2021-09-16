@@ -35,9 +35,9 @@ namespace ASP_MCV_DataAssignments.Models.Service
             return countriesViewModel;
         }
 
-        public Country Edit(int id, Country country)
+        public Country Edit(CreateCountryViewModel countryViewModel)
         {
-            return _countriesRepo.Update(country);
+            return _countriesRepo.Update(countryViewModel);
         }
 
         public CountriesViewModel FindBy(CountriesViewModel search)

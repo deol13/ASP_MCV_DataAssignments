@@ -12,7 +12,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
         PeopleViewModel All();
         PeopleViewModel FindBy(PeopleViewModel search);
         Person Findby(int id);
-        Person Edit(int id, Person person);
+        Person Edit(CreatePersonViewModel person);
         bool Remove(int id);
     }
 }

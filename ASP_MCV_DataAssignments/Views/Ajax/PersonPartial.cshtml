@@ -1,6 +1,7 @@
 ﻿@model ASP_MCV_DataAssignments.Models.Person
 
-
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
 <div class="row">
     <div class="col-sm">
         @Html.DisplayFor(model => model.Id)
@@ -25,4 +26,8 @@
     <div class="col-sm">
         @Html.ActionLink("Delete", "Remove", "People", new { Model.Id }, null)
     </div>
+    <div class="col-sm">
+        @Html.ActionLink("Edit", "Edit", "People", new { Model.Id }, null)
+    </div>
 </div>
+}

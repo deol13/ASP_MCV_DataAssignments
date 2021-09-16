@@ -30,9 +30,9 @@ namespace ASP_MCV_DataAssignments.Models.Service
             return citiesViewModel;
         }
 
-        public City Edit(int id, City city)
+        public City Edit(CreateCityViewModel cityViewModel)
         {
-            return _citiesRepo.Update(city);
+            return _citiesRepo.Update(cityViewModel);
         }
 
         public CitiesViewModel FindBy(CitiesViewModel search)
