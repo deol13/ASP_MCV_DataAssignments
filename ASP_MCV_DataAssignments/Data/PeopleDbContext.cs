@@ -1,4 +1,5 @@
 ﻿using ASP_MCV_DataAssignments.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ASP_MCV_DataAssignments.Data
 {
-    public class PeopleDbContext : DbContext
+    public class PeopleDbContext : IdentityDbContext
     {
         public PeopleDbContext(DbContextOptions<PeopleDbContext> options) : base(options){ }
 
@@ -42,5 +43,7 @@ namespace ASP_MCV_DataAssignments.Data
         public DbSet<Language> Languages { get; set; }
 
         public DbSet<KnownLanguage> KnownLanguages { get; set; }
+
+        public DbSet<ApplicationUser> Users { get; set; }
     }
 }

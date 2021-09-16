@@ -29,6 +29,9 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+
+
+
             List<KnownLanguage> knownLanguage = _context.KnownLanguages.ToList();
             LanguagesViewModel languagesViewModel = _languageService.All();
             CitiesViewModel citiesViewModel = _cityService.All();

@@ -1,9 +1,11 @@
 using ASP_MCV_DataAssignments.Data;
+using ASP_MCV_DataAssignments.Models;
 using ASP_MCV_DataAssignments.Models.Repo;
 using ASP_MCV_DataAssignments.Models.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +30,11 @@ namespace ASP_MCV_DataAssignments
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages(); //Identity
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddDefaultUI()
+                .AddEntityFrameworkStores<PeopleDbContext>()
+                .AddDefaultTokenProviders(); //Identity
 
             //services.AddScoped<IPeopleRepo, InMemoryPeopleRepo>();
 
@@ -68,6 +75,7 @@ namespace ASP_MCV_DataAssignments
 
             app.UseRouting();
 
+            app.UseAuthentication(); //Identity
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -75,6 +83,7 @@ namespace ASP_MCV_DataAssignments
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages(); //Identity
             });
         }
     }
