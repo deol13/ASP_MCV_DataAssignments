@@ -29,6 +29,7 @@ namespace ASP_MCV_DataAssignments.Controllers
         public IActionResult Index()
         {
             List<Country> countries = _context.Countries.ToList();
+            List<Person> people = _context.People.ToList();
 
             return View(_citiesService.All());
         }

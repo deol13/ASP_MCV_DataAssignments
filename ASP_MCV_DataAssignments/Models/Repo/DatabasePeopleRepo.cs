@@ -9,14 +9,11 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 {
     public class DatabasePeopleRepo : IPeopleRepo
     {
-        private static List<Person> _personList = new List<Person>();
         private readonly PeopleDbContext _context;
 
         public DatabasePeopleRepo(PeopleDbContext context)
         {
             _context = context;
-            if(_personList.Count == 0)
-                _personList = _context.People.ToList();
         }
 
         public Person Create(string name, int cityId, List<int> languageIds, int phoneNumber)
@@ -44,8 +41,6 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             }
             person.KnownLanguageList = knownLanguages;
 
-            _personList.Add(person);
-
             _context.People.Add(person);
             _context.SaveChanges();
 
@@ -54,12 +49,12 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
         public bool Delete(Person person)
         {
-            bool deleted = _personList.Remove(person);
-            if (deleted)
-            {
-                _context.People.Remove(person);
-                _context.SaveChanges();
-            }
+            _context.People.Remove(person);
+            int nrOfChanges = _context.SaveChanges();
+
+            bool deleted = false;
+            if (nrOfChanges == 1)
+                deleted = true;
 
             return deleted;
         }
@@ -73,12 +68,15 @@ namespace ASP_MCV_DataAssignments.Models.Repo
         {
             //LINQ expression
             // Define the query expression
-            IEnumerable<Person> personQuery =
-                from person in _personList
-                where person.Id == id
-                select person;
+            //IEnumerable<Person> personQuery =
+            //    from person in _personList
+            //    where person.Id == id
+            //    select person;
 
-            return personQuery.First();
+            //return personQuery.First();
+            Person person = _context.People.Find(id);
+
+            return person;
         }
 
         public Person Update(CreatePersonViewModel createPersonViewModel)
@@ -111,8 +109,6 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
             _context.People.Update(person);
             _context.SaveChanges();
-
-            _personList = _context.People.ToList();
 
             return person;
         }
