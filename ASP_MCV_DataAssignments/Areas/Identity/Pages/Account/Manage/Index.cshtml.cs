@@ -38,6 +38,24 @@ namespace ASP_MCV_DataAssignments.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
+        //public async Task<IActionResult> FlaggingAccountToAdmin()
+        public async Task<IActionResult> OnPostFlag()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            else
+            {
+                await _userManager.RemoveFromRoleAsync(user, "User");
+                await _userManager.AddToRoleAsync(user, "Admin");
+            }
+
+            return Page();
+        }
+
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
