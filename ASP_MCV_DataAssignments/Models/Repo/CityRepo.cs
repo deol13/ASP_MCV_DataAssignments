@@ -16,9 +16,26 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             _context = context;
         }
 
-        public City Create(string name)
+        public City AddPersonToCity(int cityId, int personId)
+        {
+            City city = _context.Cities.Find(cityId);
+            Person person = _context.People.Find(personId);
+
+            if (!city.PeopleInCity.Contains(person))
+            {
+                city.PeopleInCity.Add(person);
+
+                _context.Cities.Update(city);
+                _context.SaveChanges();
+            }
+
+            return city;
+        }
+
+        public City Create(string name, int countryId)
         {
             City city = new City(name);
+            city.Country = _context.Countries.Find(countryId);
 
             _context.Cities.Add(city);
             _context.SaveChanges();
@@ -54,15 +71,17 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
         public City Update(CreateCityViewModel cityViewModel)
         {
-            City city = new City(cityViewModel.Name);
-            city.CityId = cityViewModel.CityId;
+            City city = _context.Cities.Find(cityViewModel.Id);
+            city.Name = cityViewModel.Name;
+            city.Country = _context.Countries.Find(cityViewModel.CountryId);
 
-            List<Person> people = new List<Person>();
-            foreach (var item in cityViewModel.PeopleIds)
-            {
-                people.Add(_context.People.Find(item));
-            }
-            city.PeopleInCity = people;
+
+            //List<Person> people = new List<Person>();
+            //foreach (var item in cityViewModel.PeopleIds)
+            //{
+            //    people.Add(_context.People.Find(item));
+            //}
+            //city.PeopleInCity = people;
 
             _context.Cities.Update(city);
             _context.SaveChanges();

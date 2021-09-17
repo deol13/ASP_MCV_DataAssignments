@@ -57,7 +57,12 @@ namespace ASP_MCV_DataAssignments.Controllers
         public IActionResult Create()
         {
             CreatePersonViewModel vm = new CreatePersonViewModel();
+
+            //The second and third parameter should be the name of the variables of the type of object the list consists of
+            //In this case its a list of City's, so CityId and Name is the names of two of City's class variables.
+            //Not From the viewmodel
             vm.selectList = new SelectList(_context.Cities, "CityId", "Name"); //Change so the id is sent back.
+
             vm.selectLanguageList = new SelectList(_context.Languages, "LanguageId", "Name"); //Change so the id is sent back
 
             return View(vm);
@@ -66,6 +71,7 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpPost]
         public IActionResult Create(CreatePersonViewModel createPersonViewModel)
         {
+            //Goes invalid if one of the Req in CreateViewModel is not met
             if (ModelState.IsValid)
             {
                 Person person = _peopleService.Add(createPersonViewModel);

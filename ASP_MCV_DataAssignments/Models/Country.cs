@@ -22,5 +22,11 @@ namespace ASP_MCV_DataAssignments.Models
             this.Name = Name;
             Cities = new List<City>();
         }
+        public Country(string Name, int CountryId)
+        {
+            this.Name = Name;
+            this.CountryId = CountryId;
+            Cities = new List<City>();
+        }
     }
 }

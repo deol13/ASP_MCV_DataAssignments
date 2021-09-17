@@ -9,6 +9,8 @@ namespace ASP_MCV_DataAssignments.Models.Service
     public interface ICityService
     {
         City Add(CreateCityViewModel city);
+        City AddPersonToCity(int cityId, int personId);
+
         CitiesViewModel All();
         CitiesViewModel FindBy(CitiesViewModel search);
         City Findby(int id);

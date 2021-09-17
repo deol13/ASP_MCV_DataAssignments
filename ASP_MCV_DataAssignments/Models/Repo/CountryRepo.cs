@@ -65,8 +65,10 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
         public Country Update(CreateCountryViewModel countryViewModel)
         {
-            Country country = new Country(countryViewModel.Name);
-            country.CountryId = countryViewModel.CountryId;
+            Country country = _context.Countries.Find(countryViewModel.Id);
+            //Country country = new Country(countryViewModel.Name);
+            //country.CountryId = countryViewModel.CountryId;
+            country.Name = countryViewModel.Name;
 
             List<City> cities = new List<City>();
             foreach (var item in countryViewModel.CitiesId)

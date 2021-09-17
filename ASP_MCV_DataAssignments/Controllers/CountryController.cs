@@ -28,7 +28,6 @@ namespace ASP_MCV_DataAssignments.Controllers
         public IActionResult Index()
         {
             List<City> cities = _context.Cities.ToList();
-            //List<Country> countries = _context.Countries.ToList();
 
             return View(_countriesService.All());
         }
@@ -51,7 +50,12 @@ namespace ASP_MCV_DataAssignments.Controllers
         public IActionResult Create()
         {
             CreateCountryViewModel vm = new CreateCountryViewModel();
-            vm.selectList = new SelectList(_context.Cities, "CitiesId", "Name"); //Change so the id is sent back.
+
+            //The second and third parameter should be the name of the variables of the type of object the list consists of
+            //In this case its a list of City's, so CityId and Name is the names of two of City's class variables.
+            //Not From the viewmodel
+            //                                              City class CityId variable, City Class Name variable.
+            vm.selectList = new SelectList(_context.Cities, "CityId", "Name"); //Change so the id is sent back.
 
             return View(vm);
         }
@@ -59,6 +63,7 @@ namespace ASP_MCV_DataAssignments.Controllers
         [HttpPost]
         public IActionResult Create(CreateCountryViewModel createCountryViewModel)
         {
+            //Goes invalid if one of the Req in CreateViewModel is not met
             if (ModelState.IsValid)
             {
                 Country country = _countriesService.Add(createCountryViewModel);
@@ -66,17 +71,17 @@ namespace ASP_MCV_DataAssignments.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            createCountryViewModel.selectList = new SelectList(_context.Cities, "CitiesId", "Name");
+            createCountryViewModel.selectList = new SelectList(_context.Cities, "CityId", "Name");
 
             return View(createCountryViewModel);
         }
 
-        public IActionResult Edit(int id)
+        public IActionResult EditCountry(int id)
         {
             CreateCountryViewModel vm = new CreateCountryViewModel();
             Country country = _countriesService.Findby(id);
 
-            vm.CountryId = id;
+            vm.Id = id;
             vm.Name = country.Name;
 
             List<int> citiesIds = new List<int>();
@@ -92,7 +97,7 @@ namespace ASP_MCV_DataAssignments.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(CreateCountryViewModel createCountryViewModel) //Or  EditPersonViewModel editPersonViewModel
+        public IActionResult EditCountry(CreateCountryViewModel createCountryViewModel)
         {
             if (ModelState.IsValid)
             {

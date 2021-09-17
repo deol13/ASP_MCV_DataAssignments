@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210917083936_New ctor for country.cs" />
+    <Compile Remove="Migrations\20210917083936_New ctor for country.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.18" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.18">

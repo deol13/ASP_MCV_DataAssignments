@@ -18,7 +18,12 @@ namespace ASP_MCV_DataAssignments.Models.Service
 
         public City Add(CreateCityViewModel city)
         {
-            return _citiesRepo.Create(city.Name);
+            return _citiesRepo.Create(city.Name, city.CountryId);
+        }
+
+        public City AddPersonToCity(int cityId, int personId)
+        {
+            return _citiesRepo.AddPersonToCity(cityId, personId);
         }
 
         public CitiesViewModel All()

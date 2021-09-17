@@ -1,5 +1,21 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CountriesViewModel
 @{
+    ViewData["Title"] = "Country Index";
+}
+
+<h4>View Countries</h4>
+
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="Create">Create</a>
+
+    <form asp-action="Index" method="post">
+        <label asp-for="FilterText"></label>
+        <input asp-for="FilterText" />
+    </form>
+
+    @foreach (var item in Model.CountryList)
+    {
+        <partial name="CountryPartial.cshtml" for="@item" />
+    }
 }

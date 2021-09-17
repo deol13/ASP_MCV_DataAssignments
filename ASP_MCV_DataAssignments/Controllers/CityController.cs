@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ASP_MCV_DataAssignments.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, User")]
     public class CityController : Controller
     {
         ICityService _citiesService;
@@ -24,15 +24,16 @@ namespace ASP_MCV_DataAssignments.Controllers
             _context = context;
         }
 
-        
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            //List<City> cities = _context.Cities.ToList();
             List<Country> countries = _context.Countries.ToList();
 
             return View(_citiesService.All());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Index(CitiesViewModel citiesViewModel)
         {
@@ -48,15 +49,17 @@ namespace ASP_MCV_DataAssignments.Controllers
             return View(citiesViewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             CreateCityViewModel vm = new CreateCityViewModel();
-            vm.selectList = new SelectList(_context.Cities, "PeopleIds", "Name"); //Change so the id is sent back.
+            vm.CountrySelectList = new SelectList(_context.Countries, "CountryId", "Name"); //Change so the id is sent back.
 
             return View(vm);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create(CreateCityViewModel createCitiesViewModel)
         {
@@ -67,31 +70,38 @@ namespace ASP_MCV_DataAssignments.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            createCitiesViewModel.selectList = new SelectList(_context.Cities, "PeopleIds", "Name");
+            createCitiesViewModel.CountrySelectList = new SelectList(_context.Countries, "CountryId", "Name"); //Change so the id is sent back.
+
 
             return View(createCitiesViewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
+            List<Country> countries = _context.Countries.ToList();
+
             CreateCityViewModel vm = new CreateCityViewModel();
             City city = _citiesService.Findby(id);
 
-            vm.CityId = id;
+            vm.Id = id;
             vm.Name = city.Name;
+            vm.CountryId = city.Country.CountryId;
 
-            List<int> PeopleIds = new List<int>();
-            foreach (var item in city.PeopleInCity)
-            {
-                PeopleIds.Add(item.Id);
-            }
-            vm.PeopleIds = PeopleIds;
+            //List<int> PeopleIds = new List<int>();
+            //foreach (var item in city.PeopleInCity)
+            //{
+            //    PeopleIds.Add(item.Id);
+            //}
+            //vm.PeopleIds = PeopleIds;
 
-            vm.selectList = new SelectList(_context.Cities, "PeopleIds", "Name"); //Change so the id is sent back.
+            //vm.selectList = new SelectList(_context.Cities, "PeopleIds", "Name"); //Change so the id is sent back.
+            vm.CountrySelectList = new SelectList(_context.Countries, "CountryId", "Name"); //Change so the id is sent back.
 
             return View(vm);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(CreateCityViewModel createCityViewModel) //Or  EditPersonViewModel editPersonViewModel
         {
@@ -102,11 +112,13 @@ namespace ASP_MCV_DataAssignments.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            createCityViewModel.selectList = new SelectList(_context.Cities, "PeopleIds", "Name");
+            //createCityViewModel.CountrySelectList = new SelectList(_context.Cities, "PeopleIds", "Name");
+            createCityViewModel.CountrySelectList = new SelectList(_context.Countries, "CountryId", "Name");
 
             return View(createCityViewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Remove(int id)
         {
             _citiesService.Remove(id);
@@ -114,7 +126,33 @@ namespace ASP_MCV_DataAssignments.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult AddPersonToCity()
+        {
+            AddPersonToCityViewModel addPersonToCityViewModel = new AddPersonToCityViewModel();
 
+            addPersonToCityViewModel.CitiesSelectList = new SelectList(_context.Cities, "CityId", "Name");
+            addPersonToCityViewModel.PeopleSelectList = new SelectList(_context.People, "Id", "Name");
+
+            return View(addPersonToCityViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult AddPersonToCity(AddPersonToCityViewModel addPersonToCityViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _citiesService.AddPersonToCity(addPersonToCityViewModel.Id, addPersonToCityViewModel.PersonId);
+
+                return RedirectToAction("Index", "People");
+            }
+
+
+            addPersonToCityViewModel.CitiesSelectList = new SelectList(_context.Cities, "CityId", "Name");
+            addPersonToCityViewModel.PeopleSelectList = new SelectList(_context.People, "Id", "Name");
+
+            return View(addPersonToCityViewModel);
+        }
 
         public void Test()
         {

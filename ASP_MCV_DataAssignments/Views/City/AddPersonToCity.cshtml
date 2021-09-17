@@ -1,0 +1,33 @@
+﻿@model AddPersonToCityViewModel
+
+@{
+    ViewData["Title"] = "Add Person to City";
+}
+
+<h4>Add Person to City</h4>
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddPersonToCity">
+                <div class="form-group">
+                    <select asp-for="Id" asp-items="@Model.CitiesSelectList" class="form-control"></select>
+                    <span asp-validation-for="CityString" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <select asp-for="PersonId" asp-items="@Model.PeopleSelectList" class="form-control"></select>
+                    <span asp-validation-for="PersonString" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-controller="People" asp-action="Index">Back to List</a>
+    </div>
+}

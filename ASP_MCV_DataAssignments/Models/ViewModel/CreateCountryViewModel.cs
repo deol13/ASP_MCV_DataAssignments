@@ -9,14 +9,15 @@ namespace ASP_MCV_DataAssignments.Models.ViewModel
 {
     public class CreateCountryViewModel
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required]
         [StringLength(15, MinimumLength = 1)]
         public string Name { get; set; }
 
-        [Key]
-        public int CountryId { get; set; }
+        public string City { get; set; }
 
-        [Required]
         public List<int> CitiesId { get; set; }
 
         public SelectList selectList { get; set; }

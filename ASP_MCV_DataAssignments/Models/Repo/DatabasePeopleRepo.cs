@@ -66,7 +66,7 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 
         public List<Person> Read()
         {
-            return _personList;
+            return _context.People.ToList();
         }
 
         public Person Read(int id)

@@ -8,7 +8,10 @@ namespace ASP_MCV_DataAssignments.Models.Repo
 {
     public interface ICityRepo
     {
-        City Create(string name);
+        City Create(string name, int countryId);
+
+        City AddPersonToCity(int cityId, int personId);
+
         List<City> Read();
         City Read(int id);
         City Update(CreateCityViewModel city);

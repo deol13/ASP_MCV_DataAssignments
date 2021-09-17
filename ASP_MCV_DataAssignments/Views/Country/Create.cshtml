@@ -1,8 +1,10 @@
-﻿@model ASP_MCV_DataAssignments.Models.ViewModel.CreatePersonViewModel
+﻿@model CreateCountryViewModel
+@{
+    ViewData["Title"] = "Create Country";
+}
 
+<h4>Create Country</h4>
 
-<h4>CreatePersonViewModel</h4>
-<hr />
 @if (User.IsInRole("Admin"))
 {
     <div class="row">
@@ -15,17 +17,8 @@
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Phone" class="control-label"></label>
-                    <input asp-for="Phone" class="form-control" />
-                    <span asp-validation-for="Phone" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <select asp-for="CityId" asp-items="@Model.selectList" class="form-control"></select>
+                    <select asp-for="CitiesId" asp-items="@Model.selectList" class="form-control" multiple></select>
                     <span asp-validation-for="City" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <select asp-for="LanguageId" asp-items="@Model.selectLanguageList" class="form-control" multiple></select>
-                    <span asp-validation-for="Language" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
