@@ -127,6 +127,7 @@ namespace ASP_MCV_DataAssignments.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public IActionResult AddPersonToCity()
         {
@@ -138,6 +139,7 @@ namespace ASP_MCV_DataAssignments.Controllers
             return View(addPersonToCityViewModel);
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost]
         public IActionResult AddPersonToCity(AddPersonToCityViewModel addPersonToCityViewModel)
         {
