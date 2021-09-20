@@ -25,6 +25,7 @@
         @if (User.IsInRole("User"))
         {
             <div class="form-group">
+                <p>Warning! You will be automaticly logged out after flagging to admin.</p>
                 <form asp-page-handler="flag" method="post">
                     <button class="btn btn-primary">Flag to Admin</button>
                 </form>

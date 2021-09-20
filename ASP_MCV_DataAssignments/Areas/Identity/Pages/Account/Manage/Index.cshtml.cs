@@ -7,6 +7,7 @@ using ASP_MCV_DataAssignments.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace ASP_MCV_DataAssignments.Areas.Identity.Pages.Account.Manage
 {
@@ -15,12 +16,16 @@ namespace ASP_MCV_DataAssignments.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
+        private readonly ILogger<LogoutModel> _logger;
+
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<LogoutModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         public string Username { get; set; }
@@ -38,7 +43,7 @@ namespace ASP_MCV_DataAssignments.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        //public async Task<IActionResult> FlaggingAccountToAdmin()
+        //Custom method that removes the User role and adds Admin role to a user, if both method succeeded the program loggs them out.
         public async Task<IActionResult> OnPostFlag()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -49,8 +54,17 @@ namespace ASP_MCV_DataAssignments.Areas.Identity.Pages.Account.Manage
             }
             else
             {
-                await _userManager.RemoveFromRoleAsync(user, "User");
-                await _userManager.AddToRoleAsync(user, "Admin");
+
+                IdentityResult removeUserRole = await _userManager.RemoveFromRoleAsync(user, "User");
+                IdentityResult addAdminRole = await _userManager.AddToRoleAsync(user, "Admin");
+
+                if(removeUserRole.Succeeded && addAdminRole.Succeeded)
+                {
+                    await _signInManager.SignOutAsync();
+                    _logger.LogInformation("User logged out.");
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             return Page();
