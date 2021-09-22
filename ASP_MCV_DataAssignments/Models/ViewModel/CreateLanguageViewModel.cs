@@ -16,7 +16,12 @@ namespace ASP_MCV_DataAssignments.Models.ViewModel
         [StringLength(15, MinimumLength = 1)]
         public string Name { get; set; }
 
-        public SelectList selectList { get; set; }
+        public string PersonString { get; set; }
+
+        [Required]
+        public List<int> PeopleIds { get; set; }
+
+        public SelectList PeopleSelectList { get; set; }
 
         public CreateLanguageViewModel()
         {

@@ -4,6 +4,7 @@ using ASP_MCV_DataAssignments.Models.Service;
 using ASP_MCV_DataAssignments.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,115 @@ namespace ASP_MCV_DataAssignments.Controllers
             _context = context;
         }
 
-
+        [HttpGet]
         public IActionResult Index()
+        {
+            List<Person> people = _context.People.ToList();
+            List<KnownLanguage> knownLanguage = _context.KnownLanguages.ToList();
+            LanguagesViewModel languages = _languageService.All();
+
+            return View(languages);
+        }
+
+        [HttpPost]
+        public IActionResult Index(LanguagesViewModel languagesViewModel)
+        {
+            if(languagesViewModel.FilterText != null)
+            {
+                languagesViewModel = _languageService.FindBy(languagesViewModel);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(languagesViewModel);
+        }
+
+
+        [HttpGet]
+        public IActionResult Create() 
+        {
+            CreateLanguageViewModel vm = new CreateLanguageViewModel();
+            vm.PeopleSelectList = new SelectList(_context.People, "Id", "Name");
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateLanguageViewModel createLanguageViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Language language = _languageService.Add(createLanguageViewModel);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            createLanguageViewModel.PeopleSelectList = new SelectList(_context.People, "Id", "Name");
+
+            return View(createLanguageViewModel);
+        }
+
+        
+        public IActionResult Edit(int id) 
+        {
+            List<Person> people = _context.People.ToList();
+
+            CreateLanguageViewModel editCLVM = new CreateLanguageViewModel();
+            Language language = _languageService.Findby(id);
+
+            editCLVM.Id = id;
+            editCLVM.Name = language.Name;
+            editCLVM.PeopleSelectList = new SelectList(_context.People, "Id", "Name");
+
+            return View(editCLVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(CreateLanguageViewModel createLanguageViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                List<KnownLanguage> knownLanguage = _context.KnownLanguages.ToList();
+                Language language = _languageService.Edit(createLanguageViewModel);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            createLanguageViewModel.PeopleSelectList = new SelectList(_context.People, "Id", "Name");
+
+            return View(createLanguageViewModel);
+        }
+
+
+        public IActionResult Remove(int id)
+        {
+            _languageService.Remove(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+        public void AddDefaultLanguagesValues()
+        {
+            CreateLanguageViewModel createLanguageViewModel = new CreateLanguageViewModel();
+            CreateLanguageViewModel createLanguageViewModel2 = new CreateLanguageViewModel();
+            CreateLanguageViewModel createLanguageViewModel3 = new CreateLanguageViewModel();
+            CreateLanguageViewModel createLanguageViewModel4 = new CreateLanguageViewModel();
+            createLanguageViewModel.Name = "Swedish";
+            createLanguageViewModel2.Name = "French";
+            createLanguageViewModel3.Name = "Mandarin";
+            createLanguageViewModel4.Name = "Spanish";
+
+            _languageService.Add(createLanguageViewModel);
+            _languageService.Add(createLanguageViewModel2);
+            _languageService.Add(createLanguageViewModel3);
+            _languageService.Add(createLanguageViewModel4);
+        }
+
+        public void Test()
         {
             ////Test1 All without anything in it
             //LanguagesViewModel languagesViewModel = _languageService.All();
@@ -62,24 +170,6 @@ namespace ASP_MCV_DataAssignments.Controllers
             //_context.SaveChanges();
             //bool t = _languageService.Remove(5);
 
-
-            return View();
-        }
-        public void addDefaultLanguagesValues()
-        {
-            CreateLanguageViewModel createLanguageViewModel = new CreateLanguageViewModel();
-            CreateLanguageViewModel createLanguageViewModel2 = new CreateLanguageViewModel();
-            CreateLanguageViewModel createLanguageViewModel3 = new CreateLanguageViewModel();
-            CreateLanguageViewModel createLanguageViewModel4 = new CreateLanguageViewModel();
-            createLanguageViewModel.Name = "Swedish";
-            createLanguageViewModel2.Name = "French";
-            createLanguageViewModel3.Name = "Mandarin";
-            createLanguageViewModel4.Name = "Spanish";
-
-            _languageService.Add(createLanguageViewModel);
-            _languageService.Add(createLanguageViewModel2);
-            _languageService.Add(createLanguageViewModel3);
-            _languageService.Add(createLanguageViewModel4);
         }
     }
 }

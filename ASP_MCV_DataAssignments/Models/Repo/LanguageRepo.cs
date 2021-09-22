@@ -1,4 +1,5 @@
 ﻿using ASP_MCV_DataAssignments.Data;
+using ASP_MCV_DataAssignments.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,27 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             _context = context;
         }
 
-        public Language Create(string name)
+        public Language Create(CreateLanguageViewModel createLanguageViewModel)
         {
-            Language language = new Language(name);
+            Language language = new Language(createLanguageViewModel.Name);
+
+            List<KnownLanguage> knownLanguages = new List<KnownLanguage>();
+            Person person;
+            foreach (int item in createLanguageViewModel.PeopleIds)
+            {
+                person = null;
+                person = _context.People.Find(item);
+
+                KnownLanguage knownLanguage = new KnownLanguage();
+                knownLanguage.Person = person;
+                knownLanguage.PersonId = person.Id;
+                knownLanguage.Language = language;
+                knownLanguage.LanguageId = language.LanguageId;
+
+                knownLanguages.Add(knownLanguage);
+                _context.KnownLanguages.Add(knownLanguage);
+            }
+            language.KnownLanguageList = knownLanguages;
 
             _context.Languages.Add(language);
             _context.SaveChanges();
@@ -51,8 +70,31 @@ namespace ASP_MCV_DataAssignments.Models.Repo
             return language;
         }
 
-        public Language Update(Language language)
+        public Language Update(CreateLanguageViewModel createLanguageViewModel)
         {
+            Language language = _context.Languages.Find(createLanguageViewModel.Id);
+            language.Name = createLanguageViewModel.Name;
+            List<KnownLanguage> knownLanguages = new List<KnownLanguage>();
+
+            foreach (var item in language.KnownLanguageList)
+            {
+                _context.KnownLanguages.Remove(item);
+            }
+            _context.SaveChanges();
+
+            foreach (int id in createLanguageViewModel.PeopleIds)
+            {
+                KnownLanguage knownLanguage = new KnownLanguage();
+                knownLanguage.Person = _context.People.Find(id);
+                knownLanguage.PersonId = id;
+                knownLanguage.Language = language;
+                knownLanguage.LanguageId = language.LanguageId;
+
+                knownLanguages.Add(knownLanguage);
+                _context.KnownLanguages.Add(knownLanguage);
+            }
+            language.KnownLanguageList = knownLanguages;
+
             _context.Languages.Update(language);
             _context.SaveChanges();
 

@@ -12,7 +12,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
         LanguagesViewModel All();
         LanguagesViewModel FindBy(LanguagesViewModel search);
         Language Findby(int id);
-        Language Edit(int id, Language language);
+        Language Edit(CreateLanguageViewModel createLanguageViewModel);
         bool Remove(int id);
     }
 }

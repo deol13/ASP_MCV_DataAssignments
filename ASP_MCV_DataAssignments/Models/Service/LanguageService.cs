@@ -18,7 +18,7 @@ namespace ASP_MCV_DataAssignments.Models.Service
 
         public Language Add(CreateLanguageViewModel language)
         {
-            return _languagesRepo.Create(language.Name);
+            return _languagesRepo.Create(language);
         }
 
         public LanguagesViewModel All()
@@ -30,9 +30,9 @@ namespace ASP_MCV_DataAssignments.Models.Service
             return languagesViewModel;
         }
 
-        public Language Edit(int id, Language language)
+        public Language Edit(CreateLanguageViewModel createLanguageViewModel)
         {
-            return _languagesRepo.Update(language);
+            return _languagesRepo.Update(createLanguageViewModel);
         }
 
         public LanguagesViewModel FindBy(LanguagesViewModel search)
