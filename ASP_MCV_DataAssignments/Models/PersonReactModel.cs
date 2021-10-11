@@ -18,16 +18,5 @@ namespace ASP_MCV_DataAssignments.Models
         public int CityId { get; set; }
 
         public string Country { get; set; }
-
-
-
-        public PersonReactModel(int Id, string Name, int Phone, string City, string Country)
-        {
-            this.Id = Id;
-            this.Name = Name;
-            this.Phone = Phone;
-            this.City = City;
-            this.Country = Country;
-        }
     }
 }

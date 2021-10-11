@@ -41,7 +41,12 @@ namespace ASP_MCV_DataAssignments.Controllers
 
             foreach (var person in people)
             {
-                PersonReactModel p = new PersonReactModel(person.Id, person.Name, person.Phone, person.City.Name, person.City.Country.Name);
+                PersonReactModel p = new PersonReactModel();
+                p.Id = person.Id;
+                p.Name = person.Name;
+                p.Phone = person.Phone;
+                p.City = person.City.Name;
+                p.Country = person.City.Country.Name; 
                 peopleReactModel.Add(p);
             }
 
@@ -70,7 +75,8 @@ namespace ASP_MCV_DataAssignments.Controllers
 
             _peopleService.Add(person);
 
-            return Ok();
+            return Content("Success: :)");
+            //return Ok();
         }
 
         [HttpPost]

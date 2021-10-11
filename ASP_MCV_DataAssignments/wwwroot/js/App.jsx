@@ -45,7 +45,7 @@ class PersonDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showComponent: false
+            showComponent: false,
         };
         this._onButtonClick = this._onButtonClick.bind(this);
     }
@@ -63,7 +63,7 @@ class PersonDetails extends React.Component {
                 <td className="personName">{this.props.name}</td>
                 <button onClick={this._onButtonClick}>
                     {
-                        this.state.showComponent ? <ShowDetails phone={this.props.phone} city={this.props.city} country={person.country} /> : 'Show details'
+                        this.state.showComponent ? <ShowDetails phone={this.props.phone} city={this.props.city} country={this.props.country} /> : 'Show details'
                     }
                 </button>
             </tr>
@@ -71,55 +71,49 @@ class PersonDetails extends React.Component {
     }
 }
 
-
+//TODO Get list of city's/country's(name & id) and make a select for each. Get values to be sent to controller
 class PersonForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { name: '', phone: '', city: '' }
-        //this.handleNameChange = this.handleNameChange.bind(this);
-        //this.handlePhoneChange = this.handlePhoneChange.bind(this);
-        //this.handleCityChange = this.handleCityChange.bind(this);
-        //this.handelSubmit = this.handelSubmit.bind(this);
+        this.state = { nameInput: '', phoneInput: '', cityInput: '' }
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handlePhoneChange = this.handlePhoneChange.bind(this);
+        this.handleCityChange = this.handleCityChange.bind(this);
+        this.handelSubmit = this.handelSubmit.bind(this);
     }
-    //handleNameChange(e) {
-    //    this.setState({ name: e.target.value });
-    //}
-    //handlePhoneChange(e) {
-    //    this.setState({ phone: e.target.value });
-    //}
-    //handleCityChange(e) {
-    //    this.setState({ City: e.target.value });
-    //}
-    //handleSubmit(e) {
-    //    e.preventDefault();
-    //    const name = this.state.name.trim();
-    //    const phone = this.state.phone.trim();
-    //    const city = this.state.city.trim();
-    //    if (!name || !phone || !city) {
-    //        return;
-    //    }
-    //    this.props.onPersonSubmit({ name: name, phone: phone, city: city });
-    //    this.setState({ name: '', phone: '', city: '' });
-    //}
+    handleNameChange(e) {
+        this.setState({ nameInput: e.target.value });
+    }
+    handlePhoneChange(e) {
+        this.setState({ phoneInput: e.target.value });
+    }
+    handleCityChange(e) {
+        this.setState({ cityInput: e.target.value });
+    }
+    handelSubmit(e) {
+        e.preventDefault();
+        const newName = this.state.nameInput.trim();
+        const newPhone = this.state.phoneInput.trim();
+        const newCity = this.state.cityInput.trim();
+        if (!newName || !newPhone || !newCity) {
+            return;
+        }
+        this.props.onPersonSubmit({ name: newName, phone: newPhone, city: newCity });
+        this.setState({ nameInput: '', phoneInput: '', cityInput: '' });
+    }
 
     render() {
         return (
-            <form className="personForm" onSubmit={this.handleSubmit}>
-                <input type="text" placeholder="Name" value={this.state.name} />
-                <input type="text" placeholder="Phone" value={this.state.phone} />
-                <input type="text" placeholder="City" value={this.state.city} />
+            <form className="personForm" onSubmit={this.handelSubmit}>
+                <input type="text" placeholder="Name" value={this.state.nameInput} onChange={this.handleNameChange} />
+                <input type="text" placeholder="Phone" value={this.state.phoneInput} onChange={this.handlePhoneChange} />
+                <input type="text" placeholder="City" value={this.state.cityInput} onChange={this.handleCityChange} />
                 
                 <input type="submit" value="Post" />
             </form>
         );
     }
 }
-
-/*
- <input type="text" placeholder="Name" value={this.state.name} onChange={this.handleNameChange} />
- <input type="text" placeholder="Phone" value={this.state.phone} onChange={this.handlePhoneChange} />
- <input type="text" placeholder="City" value={this.state.city} onChange={this.handleCityChange} />
- */
 
 //<select>
 //    {Option.map(() => (
@@ -175,12 +169,10 @@ class App extends React.Component {
                     <TableHeader />
                     <TableBody data={this.state.data} />
                 </table>
-                <PersonForm />
+                <PersonForm onPersonSubmit={this.handlePersonSubmit}/>
             </div>
         );
     }
 }
-//<PersonForm onPersonSubmit={this.handlePersonSubmit} />
 
-//ReactDOM.render(<App url="/people" submitUrl="/people/new" pollInterval={2000}/>, document.getElementById('root'));
-ReactDOM.render(<App url="/people" pollInterval={2000}/>, document.getElementById('root'));
+ReactDOM.render(<App url="/people" submitUrl="/people/new" pollInterval={2000}/>, document.getElementById('root'));
